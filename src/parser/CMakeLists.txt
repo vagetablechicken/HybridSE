@@ -28,7 +28,7 @@ add_custom_command(OUTPUT ${SQL_AST_LEXER_GEN}
         )
 
 add_custom_command(OUTPUT ${SQL_AST_PARSER_GEN}
-        COMMAND ${PROJECT_SOURCE_DIR}/thirdparty/bin/bison ${PROJECT_SOURCE_DIR}/src/parser/sql_parser.y
+COMMAND ${PROJECT_SOURCE_DIR}/thirdparty/bin/bison ${PROJECT_SOURCE_DIR}/src/parser/sql_parser.y #COMMAND ${BISON_EXE} ${PROJECT_SOURCE_DIR}/src/parser/sql_parser.y
         DEPENDS ${PROJECT_SOURCE_DIR}/src/parser/sql_parser.y
         )
 
@@ -37,5 +37,3 @@ ADD_CUSTOM_TARGET(run_gen_parser DEPENDS ${SQL_AST_LEXER_GEN}
 
 add_library(hybridse_parser OBJECT ${SQL_AST_LEXER_GEN} ${SQL_AST_PARSER_GEN})
 add_dependencies(hybridse_parser run_gen_parser)
-
-

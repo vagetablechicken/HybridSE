@@ -60,9 +60,11 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # llvm dependency
-if (NOT DEFINED LLVM_DIR)
-    set(LLVM_DIR "${PROJECT_SOURCE_DIR}/thirdparty/lib/cmake/llvm")
+if (NOT LLVM_DIR)
+    message(STATUS use thirdpary llvm)
+    set(LLVM_DIR "$ENV{FEDB_THIRDPARTY}/lib/cmake/llvm")
 endif ()
+
 find_package(LLVM REQUIRED CONFIG)
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
@@ -144,6 +146,43 @@ include(UseSWIG)
 
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty/include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# When no thirdparty
+# find_package(gflags REQUIRED)
+# if(TARGET gflags)
+#     include(CMakePrintHelpers)
+#     cmake_print_properties(TARGETS gflags PROPERTIES INTERFACE_INCLUDE_DIRECTORIES)
+#     # message(STATUS "${gflags.INTERFACE_INCLUDE_DIRECTORIES}")
+# endif ()
+# find_package(glog REQUIRED)
+# if(TARGET glog::glog)
+#     include(CMakePrintHelpers)
+#     cmake_print_properties(TARGETS glog::glog PROPERTIES INTERFACE_INCLUDE_DIRECTORIES)
+# endif ()
+
+# get_property(GLOG_INCLUDE_DIR TARGET glog::glog PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
+# message(STATUS "glog ${GLOG_INCLUDE_DIR}")
+# include_directories(${GLOG_INCLUDE_DIR})
+# find_program(PROTOC_EXE protoc)
+# if (NOT PROTOC_EXE)
+#     set(PROTOC_EXE $ENV{FEDB_THIRDPARTY}/bin/protoc)
+# endif ()
+# message(STATUS "aa ${PROTOC_EXE}, path $ENV{PATH}")
+
+# set(BISON_EXE "/usr/local/opt/bison/bin/bison")
+# find_program(BISON_EXE bison PATHS /usr/local/opt/bison/bin NO_DEFAULT_PATH)
+# if (NOT BISON_EXE)
+#     set(BISON_EXE $ENV{FEDB_THIRDPARTY}/bin/bison)
+# endif ()
+# message(STATUS "bb ${BISON_EXE}")
+
+# link_directories(/usr/local/Cellar/boost/1.75.0_2/lib
+# /usr/local/Cellar/glog/0.4.0/lib
+# /usr/local/Cellar/leveldb/1.23/lib
+# /usr/local/Cellar/snappy/1.1.8/lib
+# /usr/local/opt/openssl@1.1/lib
+# )
+
 link_directories(${PROJECT_SOURCE_DIR}/thirdparty/lib)
 link_directories(${PROJECT_SOURCE_DIR}/thirdparty/lib64)
 
@@ -163,7 +202,10 @@ if (JAVASDK_ENABLE)
     set(JAVA_HOME ${PROJECT_SOURCE_DIR}/thirdparty/jdk1.8.0_141)
     find_package(Java COMPONENTS Development REQUIRED)
     message(STATUS "Found Java: ${Java_JAVA_EXECUTABLE} (found version \"${Java_VERSION_STRING}\")")
-
+    set(JAVA_AWT_LIBRARY NotNeeded)
+    set(JAVA_JVM_LIBRARY NotNeeded)
+    set(JAVA_INCLUDE_PATH2 NotNeeded)
+    set(JAVA_AWT_INCLUDE_PATH NotNeeded)
     find_package(JNI REQUIRED)
     message(STATUS "Found JNI: ${JNI_FOUND}")
     # Find maven

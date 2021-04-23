@@ -35,6 +35,7 @@ set(BATCH_PB_CC
 set(PLAN_PB_CC
     ${CMAKE_CURRENT_BINARY_DIR}/plan.pb.cc)
 
+    # TODO ${PROTOC_EXE} replace ${PROJECT_SOURCE_DIR}/thirdparty/bin/protoc
 add_custom_command(OUTPUT ${COMMON_PB_CC}
         COMMAND ${PROJECT_SOURCE_DIR}/thirdparty/bin/protoc -I ${PROJECT_SOURCE_DIR}/src/proto 
         --cpp_out=${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/src/proto/fe_common.proto

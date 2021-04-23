@@ -61,11 +61,12 @@ if (LLVM_EXT_ENABLE)
 endif()
 
 add_library(hybridse_flags STATIC ${CMAKE_SOURCE_DIR}/src/flags.cc)
+# target_link_libraries(hybridse_flags gflags)
 
 # hybridse core library
 add_library(hybridse_core STATIC ${SRC_FILE_LIST} ${PROJECT_SOURCE_DIR}/src/flags.cc  $<TARGET_OBJECTS:hybridse_proto> $<TARGET_OBJECTS:hybridse_parser> case/case_data_mock.cc vm/engine_test_base.cc vm/test_base.cc)
 target_link_libraries(hybridse_core
-    ${yaml_libs} ${LLVM_LIBS} ${OS_LIB} ${COMMON_LIBS} ${g_libs} ${LLVM_EXT_LIB} hybridse_flags)
+    ${yaml_libs} ${LLVM_LIBS} ${OS_LIB} ${COMMON_LIBS} ${g_libs} ${LLVM_EXT_LIB} hybridse_flags)# glog::glog)
 
 # hybridse core unittests
 if (TESTING_ENABLE AND CORE_TESTING_ENABLE)
