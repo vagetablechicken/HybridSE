@@ -59,9 +59,14 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# TODO: TP_INSTALLED
+set(ENV{TP_INSTALLED} "/Users/4paradigm/Projects/fedb-mac/HybridSQL-docker/installed")
+
+set(TP_INSTALLED $ENV{TP_INSTALLED})
 # llvm dependency
-if (NOT DEFINED LLVM_DIR)
-    set(LLVM_DIR "${PROJECT_SOURCE_DIR}/thirdparty/lib/cmake/llvm")
+if (NOT LLVM_DIR)
+    set(LLVM_DIR "${TP_INSTALLED}/lib/cmake/llvm")
+    message(STATUS "use llvm in thirdparty: ${LLVM_DIR}")
 endif ()
 find_package(LLVM REQUIRED CONFIG)
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
@@ -142,10 +147,10 @@ add_definitions(${LLVM_DEFINITIONS})
 find_package(SWIG REQUIRED)
 include(UseSWIG)
 
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty/include)
+include_directories(${TP_INSTALLED}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
-link_directories(${PROJECT_SOURCE_DIR}/thirdparty/lib)
-link_directories(${PROJECT_SOURCE_DIR}/thirdparty/lib64)
+link_directories(${TP_INSTALLED}/lib)
+link_directories(${TP_INSTALLED}/lib64)
 
 if (PYSDK_ENABLE)
     set(Python_ADDITIONAL_VERSIONS "3.8;3.7;3.6;3.5;2.7" CACHE STRING "Python to use for binding")
