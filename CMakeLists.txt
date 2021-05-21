@@ -59,9 +59,9 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# TODO: TP_INSTALLED
-set(ENV{TP_INSTALLED} "/Users/4paradigm/Projects/fedb-mac/HybridSQL-docker/installed")
-
+if(NOT DEFINED ENV{TP_INSTALLED})
+	set(ENV{TP_INSTALLED} "/Users/4paradigm/Projects/fedb-mac/HybridSQL-docker/installed")
+endif()
 set(TP_INSTALLED $ENV{TP_INSTALLED})
 # llvm dependency
 if (NOT LLVM_DIR)
